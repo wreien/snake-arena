@@ -93,7 +93,7 @@ markup::define! {
                 @for (i, (n, d, s, p)) in rooms.iter().enumerate() {
                     tr {
                         th[scope = "row"] { {i} }
-                        td { a[href = format!("/room/{}", i)] { {n} } }
+                        td { a[href = format!("/room/{}/", i)] { {n} } }
                         td { {d} }
                         td { {s} }
                         td { {p} }
@@ -204,8 +204,11 @@ markup::define! {
     }
 
     RoomControlButtons(include_start: bool) {
+        a.btn."mb-2"."btn-outline-info"[href="./history"] { "Get room history (JSON)" }
         form[method = "post"] {
-            button.btn."btn-primary"."mr-2"[
+            button.btn."mr-2".{
+                if *include_start { "btn-primary" } else { "btn-secondary" }
+            } [
                 type = "submit",
                 name = "start_room",
                 disabled? = !*include_start,

@@ -13,7 +13,7 @@ use tokio::runtime::Runtime;
 
 #[macro_use]
 extern crate warp;
-use warp::{Filter, Rejection, Reply, http::StatusCode};
+use warp::{http::StatusCode, Filter, Rejection, Reply};
 
 use std::net::SocketAddr;
 use std::sync::{Arc, Mutex};
@@ -28,7 +28,13 @@ fn manage_rooms(
     let with_waitlist = warp::any().map(move || waiting_list.clone());
     use warp::reject::not_found;
 
-    let get_room = |id| ROOMS.get(id).cloned().map(|r| (id, r)).ok_or_else(not_found);
+    let get_room = |id| {
+        ROOMS
+            .get(id)
+            .cloned()
+            .map(|r| (id, r))
+            .ok_or_else(not_found)
+    };
 
     let index = warp::path::end()
         .and(with_waitlist.clone())
@@ -69,7 +75,11 @@ fn manage_rooms(
         .map(warp::reply::html)
         .map(|reply| warp::reply::with_status(reply, StatusCode::NOT_FOUND));
 
-    index.or(room_page).or(room_request).or(room_history).or(err_404)
+    index
+        .or(room_page)
+        .or(room_request)
+        .or(room_history)
+        .or(err_404)
 }
 
 #[rustfmt::skip]
@@ -147,7 +157,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let waiting_list = Arc::new(WaitingList::new());
 
     let serve_waitlist = waiting_list.clone();
-    let s_addr = "127.0.0.1:2999".parse()?;
+    let s_addr = "0.0.0.0:3001".parse()?;
     let socket = TcpListener::bind(&s_addr)?;
     println!("Execution server listening on {}", s_addr);
     let tcp_srv = socket
@@ -155,7 +165,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         .for_each(move |socket| server::process_socket(socket, serve_waitlist.clone()))
         .map_err(|e| eprintln!("Error occurred: {:?}", e));
 
-    let w_addr = "127.0.0.1:3000".parse::<SocketAddr>()?;
+    let w_addr = "0.0.0.0:80".parse::<SocketAddr>()?;
     let warp_srv = warp::serve(manage_rooms(waiting_list)).bind(w_addr);
     println!("HTTP server listening on {}", w_addr);
 
