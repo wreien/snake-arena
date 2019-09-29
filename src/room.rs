@@ -201,6 +201,7 @@ impl Room {
     /// `Waiting` state.
     pub fn reset(&mut self) -> Result<(), &'static str> {
         self.players.clear();
+        self.history.clear();
         let old_state = std::mem::replace(&mut self.state, RoomState::Waiting);
 
         match old_state {

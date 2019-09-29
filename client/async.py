@@ -174,7 +174,7 @@ async def make_connection(host: str, port: int) -> World:
 
 # do the processing and get things started
 
-world: World = loop.run_until_complete(make_connection("127.0.0.1", 2999))
+world: World = loop.run_until_complete(make_connection("192.168.121.144", 3001))
 
 
 # Set up the window; we'll just draw for now
