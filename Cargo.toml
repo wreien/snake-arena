@@ -1,0 +1,16 @@
+[package]
+name = "server"
+version = "0.1.0"
+authors = ["Nathaniel Shead <natattak@gmail.com>"]
+edition = "2018"
+default-run = "server"
+
+[dependencies]
+warp = "0.1"
+futures = "0.1"
+tokio = "0.1"
+rand = "0.7"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+markup = "0.4.1"
+lazy_static = "1.4"
