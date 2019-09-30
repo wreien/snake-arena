@@ -24,4 +24,9 @@ Currently the following demo clients exist:
   using a blocking `socket`s-based implementation.
 - [async](client/async.py): A non-blocking implementation using python's
   `asyncio` library.
-
+- [view_history](client/view_history.py) Given a URL with the JSON data,
+  displays an interactive walkthrough of the round.
+- [ai_random](client/ai_random.py) A simple AI that makes a random choice each
+  turn.
+- [ai_nocollide](client/ai_nocollide.py) A slightly-less-simple AI that'll
+  never deliberately kill itself, but is otherwise random.

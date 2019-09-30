@@ -11,8 +11,8 @@ LEFT = b'Left\n'
 RIGHT = b'Right\n'
 FORWARD = b'Forward\n'
 
-def decision(my_id, world) -> str:
-    # we'll just pick entirely randomly
+def decision(my_id, world) -> bytes:
+    """Pick a direction entirely randomly."""
     return random.choice([LEFT, RIGHT, FORWARD])
 
 
@@ -48,4 +48,6 @@ async def make_connection(host: str, port: int):
     await loop(reader, writer, my_id)
 
 
-asyncio.run(make_connection('192.168.121.144', 3001))
+# just keep on doing it forever
+while True:
+    asyncio.run(make_connection('192.168.121.144', 3001))

@@ -30,6 +30,7 @@ class Direction(enum.Enum):
 
     @classmethod
     def from_str(cls, s: str):
+        """Create a direction from a string."""
         if s == "North":
             return cls.NORTH
         if s == "East":
@@ -44,6 +45,10 @@ class Direction(enum.Enum):
 class World:
     """
     Wrap the world in a more easily-accessible manner.
+
+    width: The width of the map
+    height: The height of the map
+    tiles: The (raw) list of tiles in the map, row-major.
     """
     def __init__(self, data):
         self.width = data["width"]
@@ -57,6 +62,7 @@ class World:
         return self.tiles[x + y * self.width]
 
     def pos_in_dir(self, x: int, y: int, direction: Direction) -> (int, int):
+        """Find the position of the tile in the given direction."""
         if direction == Direction.NORTH:
             y = y + 1
         elif direction == Direction.SOUTH:
@@ -68,10 +74,11 @@ class World:
         return (x % self.width, y % self.height)
 
     def tile_in_dir(self, x: int, y: int, direction: Direction) -> dict:
+        """Get the tile in the given direction from the point."""
         return self.get_tile(*self.pos_in_dir(x, y, direction))
 
     def find_tile_pos(self, **kwargs) -> (int, int):
-        """Find the position of the first tile with the given qualifiers"""
+        """Find the position of the first tile with the given qualifiers."""
         for x in range(self.width):
             for y in range(self.height):
                 t = self.tiles[x + y * self.width]
@@ -84,6 +91,7 @@ class World:
 
 
 def safe_tile(tile) -> bool:
+    """Determines if the given tile is safe to move onto."""
     if tile["type"] == "Blank":
         return True
     if tile["type"] == "Doodah":
@@ -151,4 +159,6 @@ async def make_connection(host: str, port: int):
     await loop(reader, writer, my_id)
 
 
-asyncio.run(make_connection('192.168.121.144', 3001))
+# do it forever
+while True:
+    asyncio.run(make_connection('192.168.121.144', 3001))

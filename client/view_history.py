@@ -99,7 +99,8 @@ class World:
             self.step_label.draw()
 
 
-world = World(64, 0, "http://192.168.121.144/room/0/history")
+room_id = input("Which room? ")
+world = World(64, 0, f"http://192.168.121.144/room/{room_id}/history")
 if world.get_max_time_point() == 0:
     print("No history.")
     sys.exit(0)
