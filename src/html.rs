@@ -249,7 +249,12 @@ markup::define! {
                     type = "submit",
                     name = "subscribe",
                 ] { "Subscribe" }
-                button.btn."btn-outline-secondary"."mr-2"[
+                button.btn."btn-outline-primary"."mr-2"[
+                    type = "submit",
+                    name = "subscribe_all",
+                    onclick = "$('input').prop('required', false)",
+                ] { "Subscribe All" }
+                button.btn."btn-secondary"."mr-2"[
                     type = "submit",
                     name = "kill",
                 ] { "Kill" }
@@ -385,6 +390,17 @@ pub fn room_request(
                 .and_then(|addr| waiting.subscribe(&addr, room_inner).map_err(fix))
                 .map(|_| "Subscribed connection to room."),
         )
+    } else if form.contains_key("subscribe_all") {
+        let room_inner = &mut room.lock().unwrap();
+        let count = waiting.len();
+        if count > 0 {
+            to_alert(
+                waiting.subscribe_all(room_inner).map(
+                    move |_| format!("Subscribed {} connection(s) to the room.", count)),
+            )
+        } else {
+            to_alert_error("No current connections to subscribe.")
+        }
     } else if form.contains_key("unsubscribe") {
         let room_inner = &mut room.lock().unwrap();
         to_alert(

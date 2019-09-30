@@ -81,6 +81,21 @@ impl WaitingList {
         }
     }
 
+    /// Moves all waiters to the given room.
+    pub fn subscribe_all(&self, room: &mut Room) -> std::io::Result<()> {
+        if let RoomState::Waiting = room.state {
+            let mut data = self.0.lock().unwrap();
+            let mut data = std::mem::replace(&mut *data, HashMap::new());
+            room.players.extend(data.drain());
+            Ok(())
+        } else {
+            Err(Error::new(
+                ErrorKind::InvalidInput,
+                "provided room is already in progress",
+            ))
+        }
+    }
+
     /// Removes a socket from the waiting list.
     ///
     /// Returns `true` if it removed something.
@@ -101,6 +116,11 @@ impl WaitingList {
             .iter()
             .map(|(&addr, (name, _, _))| (addr, name.clone()))
             .collect()
+    }
+
+    /// Get the number of people waiting
+    pub fn len(&self) -> usize {
+        self.0.lock().unwrap().len()
     }
 }
 
@@ -216,7 +236,9 @@ impl Room {
     pub fn get_state(&self) -> State {
         match &self.state {
             RoomState::Waiting => State::Waiting {
-                players: self.players.iter()
+                players: self
+                    .players
+                    .iter()
                     .map(|(&addr, (name, _, _))| (addr, name.clone()))
                     .collect(),
             },
@@ -293,7 +315,7 @@ fn setup_client(
                     Box::new(responses.and_then(move |writer| {
                         io::write_all(
                             writer,
-                            format!("{{\"state\":\"error\",\"msg\":{}}}\n", e),
+                            format!("{{\"state\":\"error\",\"msg\":\"{}\"}}\n", e),
                         )
                         .and_then(|_| future::err(e))
                     }))

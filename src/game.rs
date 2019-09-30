@@ -232,9 +232,7 @@ impl Map {
     /// Turn the given snake to the right.
     pub fn turn_right(&mut self, id: SnakeID) {
         if let Some(snake) = self.snakes.get_mut(&id) {
-            print!("Snake {} facing {:?}; ", id, snake.dir);
             snake.dir = snake.dir.right();
-            print!("is now facing {:?}\n", snake.dir);
         }
     }
 

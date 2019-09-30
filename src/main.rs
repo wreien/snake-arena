@@ -148,7 +148,18 @@ fn create_rooms() -> Vec<Arc<Mutex<Room>>> {
         "A very large room with interesting wall placing."
     )));
 
-    vec![simple, boxed, speckled, large]
+    vec![
+        simple.clone(),
+        simple.clone(),
+        simple.clone(),
+        simple.clone(),
+        simple.clone(),
+        simple.clone(),
+        simple.clone(),
+        boxed,
+        speckled,
+        large
+    ]
 }
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
