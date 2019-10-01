@@ -161,4 +161,7 @@ async def make_connection(host: str, port: int):
 
 # do it forever
 while True:
-    asyncio.run(make_connection('192.168.121.144', 3001))
+    try:
+        asyncio.run(make_connection('192.168.121.144', 3001))
+    except:
+        pass
