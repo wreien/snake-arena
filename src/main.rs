@@ -82,20 +82,24 @@ fn manage_rooms(
         .or(err_404)
 }
 
-#[rustfmt::skip]
-fn create_rooms() -> Vec<Arc<Mutex<Room>>> {
+/// Create a simple room
+fn create_simple() -> Arc<Mutex<Room>> {
     use Tile::*;
-    let simple = Arc::new(Mutex::new(Room::new(
+    Arc::new(Mutex::new(Room::new(
         5, 5, vec![
             Wall,  Wall,  Wall,  Wall,  Wall,
             Blank, Blank, Blank, Blank, Blank,
             Blank, Blank, Blank, Blank, Blank,
             Blank, Blank, Blank, Blank, Blank,
             Blank, Blank, Blank, Blank, Blank,
-        ], None, "Simple",
+        ], None, 500, "Simple",
         "A very small and simple room for testing with."
-    )));
+    )))
+}
 
+#[rustfmt::skip]
+fn create_rooms() -> Vec<Arc<Mutex<Room>>> {
+    use Tile::*;
     let boxed = Arc::new(Mutex::new(Room::new(
         10, 10, vec![
             Wall, Wall,  Wall,  Wall,  Wall,  Wall,  Wall,  Wall,  Wall,  Wall,
@@ -108,7 +112,7 @@ fn create_rooms() -> Vec<Arc<Mutex<Room>>> {
             Wall, Blank, Blank, Blank, Blank, Blank, Blank, Blank, Blank, Wall,
             Wall, Blank, Blank, Blank, Blank, Blank, Blank, Blank, Blank, Wall,
             Wall, Wall,  Wall,  Wall,  Wall,  Wall,  Wall,  Wall,  Wall,  Wall,
-        ], None, "Boxed",
+        ], None, 1_000, "Boxed",
         "A moderate-sized room that is boxed in around the outside."
     )));
 
@@ -122,7 +126,7 @@ fn create_rooms() -> Vec<Arc<Mutex<Room>>> {
             Blank, Blank, Blank, Blank, Blank, Blank, Wall,  Blank,
             Blank, Wall,  Blank, Wall,  Blank, Blank, Blank, Blank,
             Blank, Blank, Blank, Blank, Blank, Blank, Blank, Blank,
-        ], None, "Speckled",
+        ], None, 4_000, "Speckled",
         "A medium-sized room with random walls placed in the centre."
     )));
 
@@ -144,18 +148,18 @@ fn create_rooms() -> Vec<Arc<Mutex<Room>>> {
             Blank, Blank, Blank, Blank, Blank, Blank, Blank, Wall,  Blank, Blank, Blank, Blank, Wall,  Blank, Blank, Blank, Blank, Wall,  Blank, Blank,
             Wall,  Wall,  Wall,  Wall,  Wall,  Wall,  Wall,  Wall,  Blank, Blank, Blank, Blank, Wall,  Blank, Blank, Blank, Blank, Wall,  Wall,  Wall,
             Blank, Blank, Blank, Blank, Blank, Blank, Blank, Blank, Blank, Blank, Blank, Blank, Wall,  Blank, Blank, Blank, Blank, Blank, Blank, Blank,
-        ], None, "Large",
+        ], None, 12_000, "Large",
         "A very large room with interesting wall placing."
     )));
 
     vec![
-        simple.clone(),
-        simple.clone(),
-        simple.clone(),
-        simple.clone(),
-        simple.clone(),
-        simple.clone(),
-        simple.clone(),
+        create_simple(),
+        create_simple(),
+        create_simple(),
+        create_simple(),
+        create_simple(),
+        create_simple(),
+        create_simple(),
         boxed,
         speckled,
         large

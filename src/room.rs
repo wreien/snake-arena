@@ -163,6 +163,9 @@ pub struct Room {
     /// `None` means it just goes as soon as it receives all results.
     pub timestep: Option<Duration>,
 
+    /// Maximum number of turns in a game.
+    pub max_turns: usize,
+
     /// Map width
     pub width: usize,
 
@@ -186,6 +189,7 @@ impl Room {
         height: usize,
         tiles: Vec<Tile>,
         timestep: Option<Duration>,
+        max_turns: usize,
         name: S1,
         description: S2,
     ) -> Self {
@@ -194,6 +198,7 @@ impl Room {
             players: HashMap::new(),
             history: Vec::new(),
             timestep,
+            max_turns,
             width,
             height,
             tiles,
@@ -402,8 +407,13 @@ fn do_server_step<T>(
         Ok(map) => {
             let map = std::mem::replace(&mut *map_inner, map);
             room_inner.history.push(map);
-            drop(room_inner);
-            Ok(future::Loop::Continue((room, socket_txs)))
+            if room_inner.history.len() > room_inner.max_turns {
+                println!("Exceeded maximum turn count! Aborting...");
+                Err(())
+            } else {
+                drop(room_inner);
+                Ok(future::Loop::Continue((room, socket_txs)))
+            }
         }
         Err(scores) => {
             room_inner.history.push(map_inner.clone());
