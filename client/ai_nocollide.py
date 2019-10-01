@@ -163,5 +163,8 @@ async def make_connection(host: str, port: int):
 while True:
     try:
         asyncio.run(make_connection('192.168.121.144', 3001))
+    except KeyboardInterrupt:
+        break
     except:
-        pass
+        # sleep a bit before trying again
+        asyncio.wait(asyncio.sleep(10))
