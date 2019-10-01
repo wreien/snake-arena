@@ -6,11 +6,8 @@ import urllib.request
 import json
 
 
-history_url = "http://192.168.121.144/room/6/history"
-info = urllib.request.urlopen(history_url)
-data = json.load(info)
-
-print(data)
+# TODO: load data from history page
+data = []
 
 
 def load_tile(path, tile_size):
@@ -52,20 +49,15 @@ class World:
         world_map = self.data[self.time_point]["tiles"]
         for x in range(self.width):
             for y in range(self.height):
-                index = x + y * self.width
-                tile = world_map[index]
-                # create a sprite and put it in self.tiles
-                if tile["type"] == "Wall":
-                    sprite = pyglet.sprite.Sprite(
-                        images["Wall"],
-                        x=x * tile_size, 
-                        y=y * tile_size)
-                    self.tiles.append(sprite)
-    
+                # TODO: load into self.tiles
+                pass
+
     def draw(self):
         """Draw the world."""
         for tile in self.tiles:
             tile.draw()
+
+    # TODO control time_point
 
 
 world = World(data)
