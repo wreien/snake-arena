@@ -4,10 +4,17 @@ import pyglet
 from pyglet.window import key
 import urllib.request
 import json
+import sys
 
 
 # TODO: load data from history page
 data = []
+
+
+# if there's no data, quit immediately
+if len(data) == 0:
+    print("No history to view!")
+    sys.exit(0)
 
 
 def load_tile(path, tile_size):
@@ -18,6 +25,7 @@ def load_tile(path, tile_size):
     return img
 
 
+# our available images to use
 tile_size = 64
 images = {
     "Blank": load_tile("empty.png", tile_size),
@@ -28,6 +36,7 @@ images = {
 }
 
 
+# the window we use
 window = pyglet.window.Window(
     width=data[0]["width"] * tile_size,
     height=data[0]["height"] * tile_size,
@@ -35,7 +44,7 @@ window = pyglet.window.Window(
 
 
 class World:
-    """Stores the current world frame."""
+    """Stores the current world frame for a given time point."""
 
     def __init__(self, data: list):
         self.data = data
@@ -43,10 +52,13 @@ class World:
         self.tiles = []
         self.width = data[0]["width"]
         self.height = data[0]["height"]
+        # load in the first frame
+        self.load_frame()
 
-    def load_data(self):
+    def load_frame(self):
         """Load from `self.data[self.time_point]` into `self.tiles`"""
         world_map = self.data[self.time_point]["tiles"]
+        self.tiles = []
         for x in range(self.width):
             for y in range(self.height):
                 # TODO: load into self.tiles
@@ -61,7 +73,6 @@ class World:
 
 
 world = World(data)
-world.load_data()
 
 
 @window.event

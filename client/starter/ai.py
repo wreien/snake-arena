@@ -1,7 +1,10 @@
 #!/usr/bin/env python3
 
+from __future__ import annotations
 import asyncio
 import json
+import sys
+import enum
 
 
 LEFT = b'Left\n'
@@ -17,16 +20,16 @@ class Direction(enum.Enum):
     SOUTH = 2
     WEST = 3
 
-    def right(self):
+    def right(self) -> Direction:
         """Get the direction after turning right."""
         return Direction((self.value + 1) % 4)
 
-    def left(self):
+    def left(self) -> Direction:
         """Get the direction after turning left."""
         return Direction((self.value - 1) % 4)
 
     @classmethod
-    def from_str(cls, s: str):
+    def from_str(cls, s: str) -> cls:
         """Create a direction from a string."""
         if s == "North":
             return cls.NORTH
@@ -47,7 +50,7 @@ class World:
     height: The height of the map
     tiles: The (raw) list of tiles in the map, row-major.
     """
-    def __init__(self, data):
+    def __init__(self, data: dict):
         self.width = data["width"]
         self.height = data["height"]
         self.tiles = data["tiles"]
@@ -71,8 +74,7 @@ class World:
 
     def tile_in_dir(self, x: int, y: int, direction: Direction) -> dict:
         """Get the tile in the given direction from the point."""
-        # TODO; feel free to use `tile_in_dir`
-        pass
+        return get_tile(*pos_in_dir(x, y, direction))
 
     def find_tile_pos(self, **kwargs) -> (int, int):
         """
@@ -94,6 +96,8 @@ class World:
 
 def safe_tile(tile) -> bool:
     """Determines if the given tile is safe to move onto."""
+    # TODO
+    return True
 
 
 def decision(my_id: int, world: World) -> str:
@@ -106,8 +110,8 @@ def decision(my_id: int, world: World) -> str:
     x, y = pos
     direction = Direction.from_str(world.get_tile(x, y)["dir"])
 
-    # TODO: make a decision
-    pass
+    # TODO: make a "real" decision
+    return FORWARD
 
 
 async def next_state(reader: asyncio.StreamReader) -> dict:
@@ -124,7 +128,7 @@ async def event_loop(my_id: int,
     pass
 
 
-async def make_connection(host: str, port: int):
+async def run_ai(host: str, port: int):
     """Kick off the whole thing."""
     print("Connecting...")
     reader, writer = await asyncio.open_connection(host, port)
@@ -139,5 +143,6 @@ async def make_connection(host: str, port: int):
     await event_loop(my_id, reader, writer)
 
 
+# automatically restart the AI when its done
 while True:
-    asyncio.run(make_connection('192.168.121.144', 3001))
+    asyncio.run(run_ai('192.168.121.144', 3001))

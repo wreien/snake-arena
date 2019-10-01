@@ -34,10 +34,12 @@ images = {
 # manually handle the asyncio event loop
 loop = asyncio.AbstractEventLoop = asyncio.get_event_loop()
 
+
 async def next_state(reader: asyncio.StreamReader) -> dict:
     """Get the next line of data from the server."""
     line = await reader.readline()
     return json.loads(line.decode("utf-8"))
+
 
 async def make_connection(host: str, port: int):
     """Get connected to the server."""
@@ -54,8 +56,10 @@ async def make_connection(host: str, port: int):
     # TODO: return a class to manage the server interaction
     return my_id
 
+
 my_id = loop.run_until_complete(make_connection('192.168.121.144', 3001))
 print("My ID:", my_id)
+
 
 window = pyglet.window.Window(
     width=640,
