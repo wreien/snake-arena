@@ -57,6 +57,8 @@ Currently the following demo clients exist:
   turn.
 - [ai_nocollide](client/ai_nocollide.py) A slightly-less-simple AI that'll
   never deliberately kill itself, but is otherwise random.
+- [ai_search](client/ai_search.py) An AI that uses breadth-first searching to
+  attempt to find the doodah.
 
 ## Usage
 
@@ -93,9 +95,9 @@ many of their bugs! In particular, `async.py` would dearly love a UX update
 and otherwise be made more usable — it is also quite severely buggy in its
 current state, though it does perform the base game quite well.
 
-AI-wise, both demo AIs are thoroughly terrible ☺ It wouldn't be all that much
-work to write a BFS-based AI to at least improve things slightly, though at
-least `nocollide.py` doesn't commit suicide (as often).
+AI-wise, most demo AIs are thoroughly terrible ☺ The only redeemable
+one is `ai_search`, which at least does generally well, but there are still a
+lot of improvements that can be made to it.
 
 (Incidentally, there must be a better way of doing networking combined with
 graphics. The awkward method I ended up doing of crossing `asyncio` with
