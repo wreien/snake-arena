@@ -97,6 +97,32 @@ fn create_simple() -> Arc<Mutex<Room>> {
     )))
 }
 
+/// Create a large room
+fn create_large() -> Arc<Mutex<Room>> {
+    use Tile::*;
+    Arc::new(Mutex::new(Room::new(
+        20, 16, vec![
+            Blank, Blank, Blank, Blank, Blank, Blank, Blank, Blank, Blank, Blank, Blank, Blank, Wall,  Blank, Blank, Blank, Blank, Blank, Blank, Blank,
+            Blank, Blank, Blank, Blank, Blank, Blank, Blank, Blank, Blank, Blank, Blank, Blank, Wall,  Blank, Blank, Blank, Blank, Blank, Blank, Blank,
+            Blank, Blank, Blank, Blank, Wall,  Wall,  Wall,  Blank, Blank, Blank, Blank, Blank, Wall,  Blank, Blank, Blank, Blank, Blank, Blank, Blank,
+            Blank, Blank, Blank, Blank, Wall,  Blank, Blank, Blank, Blank, Blank, Blank, Blank, Wall,  Blank, Blank, Blank, Blank, Blank, Blank, Blank,
+            Blank, Blank, Blank, Blank, Wall,  Blank, Wall,  Blank, Blank, Wall,  Blank, Blank, Blank, Blank, Blank, Wall,  Wall,  Blank, Blank, Blank,
+            Blank, Blank, Blank, Blank, Blank, Blank, Blank, Blank, Blank, Wall,  Blank, Blank, Blank, Blank, Blank, Wall,  Wall,  Blank, Blank, Blank,
+            Blank, Blank, Blank, Wall,  Blank, Blank, Blank, Blank, Blank, Wall,  Blank, Blank, Wall,  Wall,  Wall,  Wall,  Wall,  Blank, Blank, Blank,
+            Blank, Blank, Blank, Blank, Blank, Blank, Blank, Blank, Blank, Blank, Blank, Blank, Wall,  Wall,  Wall,  Blank, Blank, Blank, Blank, Blank,
+            Blank, Blank, Blank, Blank, Blank, Blank, Blank, Blank, Blank, Blank, Blank, Blank, Wall,  Wall,  Wall,  Blank, Blank, Blank, Blank, Blank,
+            Wall,  Wall,  Wall,  Blank, Wall,  Wall,  Wall,  Wall,  Blank, Blank, Blank, Blank, Wall,  Wall,  Wall,  Wall,  Blank, Wall,  Wall,  Wall,
+            Blank, Blank, Blank, Blank, Blank, Blank, Blank, Wall,  Blank, Blank, Blank, Blank, Blank, Blank, Blank, Blank, Blank, Wall,  Blank, Blank,
+            Blank, Blank, Blank, Blank, Blank, Blank, Blank, Wall,  Blank, Blank, Blank, Blank, Blank, Blank, Blank, Blank, Blank, Blank, Blank, Blank,
+            Blank, Blank, Blank, Blank, Blank, Blank, Blank, Wall,  Blank, Blank, Blank, Blank, Wall,  Blank, Blank, Blank, Blank, Blank, Blank, Blank,
+            Blank, Blank, Blank, Blank, Blank, Blank, Blank, Wall,  Blank, Blank, Blank, Blank, Wall,  Blank, Blank, Blank, Blank, Wall,  Blank, Blank,
+            Wall,  Wall,  Wall,  Wall,  Wall,  Wall,  Wall,  Wall,  Blank, Blank, Blank, Blank, Wall,  Blank, Blank, Blank, Blank, Wall,  Wall,  Wall,
+            Blank, Blank, Blank, Blank, Blank, Blank, Blank, Blank, Blank, Blank, Blank, Blank, Wall,  Blank, Blank, Blank, Blank, Blank, Blank, Blank,
+        ], None, 12_000, "Large",
+        "A very large room with interesting wall placing."
+    )))
+}
+
 #[rustfmt::skip]
 fn create_rooms() -> Vec<Arc<Mutex<Room>>> {
     use Tile::*;
@@ -130,30 +156,7 @@ fn create_rooms() -> Vec<Arc<Mutex<Room>>> {
         "A medium-sized room with random walls placed in the centre."
     )));
 
-    let large = Arc::new(Mutex::new(Room::new(
-        20, 16, vec![
-            Blank, Blank, Blank, Blank, Blank, Blank, Blank, Blank, Blank, Blank, Blank, Blank, Wall,  Blank, Blank, Blank, Blank, Blank, Blank, Blank,
-            Blank, Blank, Blank, Blank, Blank, Blank, Blank, Blank, Blank, Blank, Blank, Blank, Wall,  Blank, Blank, Blank, Blank, Blank, Blank, Blank,
-            Blank, Blank, Blank, Blank, Wall,  Wall,  Wall,  Blank, Blank, Blank, Blank, Blank, Wall,  Blank, Blank, Blank, Blank, Blank, Blank, Blank,
-            Blank, Blank, Blank, Blank, Wall,  Blank, Blank, Blank, Blank, Blank, Blank, Blank, Wall,  Blank, Blank, Blank, Blank, Blank, Blank, Blank,
-            Blank, Blank, Blank, Blank, Wall,  Blank, Wall,  Blank, Blank, Wall,  Blank, Blank, Blank, Blank, Blank, Wall,  Wall,  Blank, Blank, Blank,
-            Blank, Blank, Blank, Blank, Blank, Blank, Blank, Blank, Blank, Wall,  Blank, Blank, Blank, Blank, Blank, Wall,  Wall,  Blank, Blank, Blank,
-            Blank, Blank, Blank, Wall,  Blank, Blank, Blank, Blank, Blank, Wall,  Blank, Blank, Wall,  Wall,  Wall,  Wall,  Wall,  Blank, Blank, Blank,
-            Blank, Blank, Blank, Blank, Blank, Blank, Blank, Blank, Blank, Blank, Blank, Blank, Wall,  Wall,  Wall,  Blank, Blank, Blank, Blank, Blank,
-            Blank, Blank, Blank, Blank, Blank, Blank, Blank, Blank, Blank, Blank, Blank, Blank, Wall,  Wall,  Wall,  Blank, Blank, Blank, Blank, Blank,
-            Wall,  Wall,  Wall,  Blank, Wall,  Wall,  Wall,  Wall,  Blank, Blank, Blank, Blank, Wall,  Wall,  Wall,  Wall,  Blank, Wall,  Wall,  Wall,
-            Blank, Blank, Blank, Blank, Blank, Blank, Blank, Wall,  Blank, Blank, Blank, Blank, Blank, Blank, Blank, Blank, Blank, Wall,  Blank, Blank,
-            Blank, Blank, Blank, Blank, Blank, Blank, Blank, Wall,  Blank, Blank, Blank, Blank, Blank, Blank, Blank, Blank, Blank, Blank, Blank, Blank,
-            Blank, Blank, Blank, Blank, Blank, Blank, Blank, Wall,  Blank, Blank, Blank, Blank, Wall,  Blank, Blank, Blank, Blank, Blank, Blank, Blank,
-            Blank, Blank, Blank, Blank, Blank, Blank, Blank, Wall,  Blank, Blank, Blank, Blank, Wall,  Blank, Blank, Blank, Blank, Wall,  Blank, Blank,
-            Wall,  Wall,  Wall,  Wall,  Wall,  Wall,  Wall,  Wall,  Blank, Blank, Blank, Blank, Wall,  Blank, Blank, Blank, Blank, Wall,  Wall,  Wall,
-            Blank, Blank, Blank, Blank, Blank, Blank, Blank, Blank, Blank, Blank, Blank, Blank, Wall,  Blank, Blank, Blank, Blank, Blank, Blank, Blank,
-        ], None, 12_000, "Large",
-        "A very large room with interesting wall placing."
-    )));
-
     vec![
-        create_simple(),
         create_simple(),
         create_simple(),
         create_simple(),
@@ -162,7 +165,12 @@ fn create_rooms() -> Vec<Arc<Mutex<Room>>> {
         create_simple(),
         boxed,
         speckled,
-        large
+        create_large(),
+        create_large(),
+        create_large(),
+        create_large(),
+        create_large(),
+        create_large(),
     ]
 }
 
