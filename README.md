@@ -25,6 +25,19 @@ the IP address `127.0.0.1`, otherwise you will need to find the IP address of
 the computer its running on — google how depending on your operating system.
 (If it's on the same network it's probably something like `192.168.X.X`.)
 
+You will probably require administrator privileges to run the server, since it
+is broadcasting to the network. If need be, the actual executable file for the
+server (after it's built) can be found in `target/debug/server`. If that still
+doesn't work, and you're happy for the server to only run on your own
+computer, edit `src/main.rs`, change the IP addresses down the bottom of
+the file from `0.0.0.0` to `127.0.0.1`, and try using `cargo run` again.
+
+### Other
+
+The text editor we were using in the workshop was [Visual Studio
+Code](https://code.visualstudio.com), which has good support for Python and
+works on many operating systems.
+
 ## Demo Clients
 
 Currently the following demo clients exist:
